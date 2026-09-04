@@ -1,25 +1,26 @@
-# CodeSense AI
+# CodeSense AI – AI Code Reviewer & Bug Fixing Agent
 
 ## Overview
 
-CodeSense AI is an AI-powered code review application that analyzes source code, identifies bugs, detects potential security issues, provides optimization suggestions, and generates improved code using Google's Gemini API.
+CodeSense AI is an AI-powered web application that reviews source code using Google's Gemini API. It analyzes code across multiple programming languages, detects bugs, identifies potential security issues, provides optimization suggestions, and generates an improved version of the submitted code.
 
-The application allows developers to review code across multiple programming languages through a simple and responsive web interface.
+The application features a clean and responsive interface built with HTML, CSS, and JavaScript, while the backend is powered by FastAPI.
 
 ---
 
 ## Features
 
-- AI-powered code analysis
-- Bug detection and reporting
-- Code optimization suggestions
-- Security issue analysis
-- Overall code quality score
-- AI-generated improved code
+- AI-powered code analysis using Google Gemini
+- Supports multiple programming languages
+- Detects bugs and logical issues
+- Performs security analysis
+- Provides code optimization suggestions
+- Generates AI-improved code
+- Displays an overall code quality score
 - Copy improved code to clipboard
-- Download review reports
-- Review history using Local Storage
-- Dark and Light mode
+- Download review reports as text files
+- Stores previous reviews using Browser Local Storage
+- Light and Dark mode support
 - Responsive user interface
 
 ---
@@ -31,6 +32,7 @@ The application allows developers to review code across multiple programming lan
 - HTML5
 - CSS3
 - JavaScript
+- Font Awesome
 
 ### Backend
 
@@ -51,20 +53,23 @@ The application allows developers to review code across multiple programming lan
 ## Project Structure
 
 ```text
-CodeSense-AI/
+AI-Code-Reviewer/
 │
-├── static/
-│   ├── style.css
-│   └── script.js
+├── backend/
+│   ├── frontend/
+│   │   ├── index.html
+│   │   ├── style.css
+│   │   └── script.js
+│   │
+│   ├── __pycache__/
+│   ├── .env
+│   ├── main.py
+│   ├── prompt.py
+│   └── requirements.txt
 │
-├── templates/
-│   └── index.html
-│
-├── main.py
-├── requirements.txt
-├── .env
-├── README.md
-└── .gitignore
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
 ---
@@ -74,25 +79,25 @@ CodeSense-AI/
 ### Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/CodeSense-AI.git
+git clone https://github.com/TanishaAdari/AI-Code-Reviewer.git
 ```
 
 ### Navigate to the project directory
 
 ```bash
-cd CodeSense-AI
+cd AI-Code-Reviewer
 ```
 
 ### Create a virtual environment
 
-Windows
+**Windows**
 
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
 
-Linux/macOS
+**Linux / macOS**
 
 ```bash
 python3 -m venv venv
@@ -102,24 +107,27 @@ source venv/bin/activate
 ### Install dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
-### Configure environment variables
+### Configure Environment Variables
 
-Create a `.env` file in the project directory.
+Create a `.env` file inside the **backend** folder.
+
+Example:
 
 ```env
-GOOGLE_API_KEY=YOUR_GEMINI_API_KEY
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
 
-### Run the application
+### Run the Application
 
 ```bash
+cd backend
 uvicorn main:app --reload
 ```
 
-Open the application in your browser:
+Open your browser and visit:
 
 ```
 http://127.0.0.1:8000
@@ -129,16 +137,18 @@ http://127.0.0.1:8000
 
 ## Usage
 
-1. Select the programming language.
+1. Select a programming language.
 2. Paste the source code into the editor.
 3. Click **Analyze Code**.
-4. Review the generated analysis, which includes:
+4. The application sends the code to the FastAPI backend.
+5. The backend communicates with Google's Gemini API.
+6. The AI analyzes the code and returns:
    - Overall Score
    - Bugs Found
-   - Suggestions
+   - Optimization Suggestions
    - Security Report
    - Improved Code
-5. Copy or download the generated report if required.
+7. Review, copy, or download the generated report.
 
 ---
 
@@ -158,27 +168,43 @@ http://127.0.0.1:8000
 
 ---
 
-## Screenshots
+## Application Workflow
 
-### Home Page
-
-*Add screenshot here.*
-
-### Analysis Result
-
-*Add screenshot here.*
-
----
+```text
+User
+   │
+   ▼
+Frontend (HTML/CSS/JavaScript)
+   │
+   ▼
+FastAPI Backend
+   │
+   ▼
+Google Gemini API
+   │
+   ▼
+AI Code Analysis
+   │
+   ▼
+Frontend displays:
+• Overall Score
+• Bugs
+• Suggestions
+• Security Report
+• Improved Code
+```
 
 ## Future Enhancements
 
-- Syntax highlighting for improved code
-- PDF report export
+- Syntax highlighting for generated code
+- Line-by-line bug explanation
+- PDF report generation
+- Docker support
+- Database-backed review history
 - User authentication
-- Cloud-based review history
+- CI/CD integration
 - Support for additional AI models
-- Line-by-line code explanation
-- Real-time code analysis
+- Advanced static code analysis
 
 ---
 
@@ -195,7 +221,7 @@ Add your deployed application URL here
 ## GitHub Repository
 
 ```
-Add your GitHub repository URL here
+https://github.com/TanishaAdari/AI-Code-Reviewer
 ```
 
 ---
