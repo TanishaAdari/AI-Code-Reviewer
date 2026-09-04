@@ -213,7 +213,7 @@ Frontend displays:
 **Application**
 
 ```
-Add your deployed application URL here
+https://ai-code-reviewer-qxos.onrender.com
 ```
 
 ---
