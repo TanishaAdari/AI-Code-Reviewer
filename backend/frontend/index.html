@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CodeSense AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+<body>
+
+<nav class="navbar">
+
+<div class="logo">
+<i class="fa-solid fa-code"></i>
+
+<div>
+<h2>CodeSense AI</h2>
+<p>Professional AI Code Reviewer</p>
+</div>
+
+</div>
+
+<div class="nav-buttons">
+
+<button type="button" id="historyBtn" title="Review History">
+<i class="fa-solid fa-clock-rotate-left"></i>
+</button>
+
+<button type="button" id="themeBtn" title="Toggle Theme">
+<i class="fa-solid fa-moon"></i>
+</button>
+
+</div>
+
+</nav>
+
+<!-- Review History Sidebar -->
+
+<div id="historyPanel" class="history-panel">
+
+<div class="history-header">
+
+<h2>
+<i class="fa-solid fa-clock-rotate-left"></i>
+Review History
+</h2>
+
+<button type="button" id="closeHistory">
+<i class="fa-solid fa-xmark"></i>
+</button>
+
+</div>
+
+<div id="historyList">
+
+<div class="empty-state">
+<i class="fa-solid fa-clock"></i>
+<p>No previous reviews found.</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- Background Overlay -->
+
+<div id="historyOverlay" class="history-overlay"></div>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<span class="hero-badge">
+<i class="fa-solid fa-bolt"></i>
+Powered by Google Gemini
+</span>
+
+<h1>
+Review Your Code Like a Professional
+</h1>
+
+<p>
+Analyze source code instantly, detect bugs, discover security issues,
+receive optimization suggestions and generate improved code with AI.
+</p>
+
+</div>
+
+</section>
+
+<div class="main-container">
+
+<div class="left-panel">
+
+<div class="section-title">
+
+<h3>
+<i class="fa-solid fa-terminal"></i>
+Code Editor
+</h3>
+
+<span id="charCount">
+0 Characters
+</span>
+
+</div>
+
+<label for="language">
+Programming Language
+</label>
+
+<select id="language">
+
+<option value="Python">Python</option>
+<option value="Java">Java</option>
+<option value="JavaScript">JavaScript</option>
+<option value="C">C</option>
+<option value="C++">C++</option>
+<option value="C#">C#</option>
+<option value="Go">Go</option>
+<option value="PHP">PHP</option>
+<option value="Rust">Rust</option>
+<option value="Swift">Swift</option>
+<option value="Kotlin">Kotlin</option>
+
+</select>
+
+<textarea
+id="code"
+placeholder="// Paste your source code here...
+
+Example:
+
+def hello():
+    print('Hello World')
+
+hello()
+
+"></textarea>
+
+<div class="button-group">
+
+<button type="button" id="reviewBtn">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+Analyze Code
+</button>
+
+<button type="button" id="clearBtn">
+<i class="fa-solid fa-trash"></i>
+Clear
+</button>
+
+</div>
+
+</div>
+
+<div class="right-panel">
+
+<div class="review-top">
+
+<div>
+
+<h2>
+<i class="fa-solid fa-robot"></i>
+AI Review
+</h2>
+
+<p>
+Professional Static Analysis Report
+</p>
+
+</div>
+
+<div class="review-buttons">
+
+<button type="button" id="copyBtn">
+<i class="fa-regular fa-copy"></i>
+Copy
+</button>
+
+<button type="button" id="downloadBtn">
+<i class="fa-solid fa-download"></i>
+Download
+</button>
+
+</div>
+
+</div>
+
+<div id="loading" class="loading">
+
+    <div class="spinner"></div>
+
+    <h3 id="loadingTitle">Analyzing your code...</h3>
+
+    <div id="progressWrapper">
+
+        <div class="progress-bar">
+            <div id="progressFill"></div>
+        </div>
+
+        <p id="progressLabel">Preparing analysis...</p>
+
+    </div>
+
+</div>
+
+<div id="reviewSection">
+
+<!-- Review Summary -->
+
+<div class="summary-card">
+
+<div class="summary-item">
+<i class="fa-solid fa-star"></i>
+<h2 id="score">--</h2>
+<span>Overall Score</span>
+</div>
+
+<div class="summary-item">
+<i class="fa-solid fa-bug"></i>
+<h2 id="bugCount">0</h2>
+<span>Bugs</span>
+</div>
+
+<div class="summary-item">
+<i class="fa-solid fa-shield-halved"></i>
+<h2 id="securityStatus">Safe</h2>
+<span>Security</span>
+</div>
+
+<div class="summary-item">
+<i class="fa-solid fa-lightbulb"></i>
+<h2 id="suggestionCount">0</h2>
+<span>Suggestions</span>
+</div>
+
+</div>
+
+<!-- Bugs -->
+
+<div id="bugCard" class="card">
+
+<div class="card-header">
+
+<i class="fa-solid fa-bug"></i>
+
+<div>
+<h3>Bugs Found</h3>
+<small>Potential issues detected in your code</small>
+</div>
+
+</div>
+
+<div id="bugs">
+
+<div class="empty-state">
+<i class="fa-solid fa-circle-info"></i>
+<p>No analysis yet.</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- Suggestions -->
+
+<div id="suggestionCard" class="card">
+
+<div class="card-header">
+
+<i class="fa-solid fa-lightbulb"></i>
+
+<div>
+<h3>Suggestions</h3>
+<small>Recommended improvements</small>
+</div>
+
+</div>
+
+<div id="suggestions">
+
+<div class="empty-state">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+<p>Suggestions will appear here.</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- Security -->
+
+<div id="securityCard" class="card">
+
+<div class="card-header">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<div>
+<h3>Security Report</h3>
+<small>Security analysis</small>
+</div>
+
+</div>
+
+<div id="security">
+
+<div class="empty-state">
+<i class="fa-solid fa-lock"></i>
+<p>No security report available.</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- Improved Code -->
+
+<div id="codeCard" class="card">
+
+<div class="card-header">
+
+<i class="fa-solid fa-code"></i>
+
+<div>
+<h3>Improved Code</h3>
+<small>AI optimized version</small>
+</div>
+
+</div>
+
+<pre id="improvedCode">
+Your improved code will appear here...
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="/static/script.js"></script>
+
+</body>
+
+</html>
